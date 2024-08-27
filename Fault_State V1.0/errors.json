@@ -1,0 +1,12 @@
+{
+  "errors": {
+    "0x00": {
+      "summary": "Positive Response",
+      "description": "This response code shall not be used in a negative response message.\nThis positiveResponse parameter value is reserved for server internal implementation."
+    },
+    "0x01-0x0F": {
+      "summary": "ISOSAE Reserved",
+      "description": "This range of values is reserved by this document for future definition."
+    }
+  }
+}
