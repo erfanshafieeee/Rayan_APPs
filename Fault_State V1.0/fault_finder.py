@@ -174,3 +174,4 @@ btn_exit = tk.Button(button_frame, text="Exit", command=quit_app, bg='#4A274F', 
 btn_exit.pack(side='left', padx=10)
 # اجرای برنامه
 root.mainloop()
+#V2.0
