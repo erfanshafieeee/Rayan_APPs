@@ -3,12 +3,10 @@ import tkinter as tk
 from tkinter import messagebox, simpledialog, filedialog, font
 
 PASSWORD = "1234"
-
 # تابع برای چک کردن پسورد
 def check_password():
     entered_password = simpledialog.askstring("Password", "Enter the password:", show='*')
     return entered_password == PASSWORD
-
 # تابع برای خروجی گرفتن از فایل JSON
 def export_json():
     if check_password():
@@ -24,7 +22,6 @@ def export_json():
                 messagebox.showerror("Export Error", f"An error occurred: {str(e)}")
     else:
         messagebox.showerror("Access Denied", "Incorrect password.")
-
 # تابع برای وارد کردن فایل JSON
 def import_json():
     if check_password():
@@ -53,7 +50,6 @@ def import_json():
                 messagebox.showerror("Import Error", f"An error occurred: {str(e)}")
     else:
         messagebox.showerror("Access Denied", "Incorrect password.")
-
 # تابع برای اضافه کردن دستی یک کد خطا
 def add_error_code():
     if check_password():
@@ -84,7 +80,6 @@ def add_error_code():
             messagebox.showerror("Add Error", f"An error occurred: {str(e)}")
     else:
         messagebox.showerror("Access Denied", "Incorrect password.")
-
 # تابع برای بررسی اینکه یک کد در یک بازه قرار دارد یا نه
 def code_in_range(code, range_str):
     start, end = range_str.split('-')
@@ -92,7 +87,6 @@ def code_in_range(code, range_str):
     end = int(end, 16)
     code = int(code, 16)
     return start <= code <= end
-
 # تابع برای جستجوی کد خطا در فایل JSON
 def search_error(event=None):
     code = entry_code.get().strip().upper()
@@ -127,53 +121,44 @@ def search_error(event=None):
     except json.JSONDecodeError:
         messagebox.showerror("Error", "Error reading JSON file.")
 
+def quit_app():
+    root.withdraw()
+    root.quit()
 # ایجاد پنجره اصلی
 root = tk.Tk()
-root.title("Error Code Lookup")
-
+root.title("State Error Code Finder")
 # تنظیمات اندازه و رنگ پنجره
 root.geometry("1200x600")
-root.configure(bg='orange')
-
-# فونت بولد
-bold_font = font.Font(weight='bold')
-
+root.configure(bg='#F0A07C')
 # لیبل و ورودی برای کد خطا
-label_code = tk.Label(root, text="Enter your error code:", bg='orange', font=bold_font)
+label_code = tk.Label(root, text="Enter your state error code:", bg='#F0A07C', font=('Helvetica', 15, 'bold') , fg='white')
 label_code.pack(pady=5)
 entry_code = tk.Entry(root)
 entry_code.pack(pady=5)
-
 # دکمه جستجو با رنگ متمایز
-search_button = tk.Button(root, text="Search", command=search_error, bg='blue', fg='white', font=bold_font)
+search_button = tk.Button(root, text="Search", command=search_error, bg='blue', fg='white', font=('Helvetica', 15, 'bold'))
 search_button.pack(pady=10)
-
 # متصل کردن دکمه Enter به تابع جستجو
 root.bind('<Return>', search_error)
-
 # نمایش خلاصه و شرح خطا
-label_summary = tk.Label(root, text="Summary:", bg='orange', font=bold_font)
+label_summary = tk.Label(root, text="Summary:", bg='#F0A07C', font=('Helvetica', 15, 'bold'),fg='white')
 label_summary.pack(pady=5)
-label_summary_value = tk.Label(root, text="", fg="blue", bg='orange', font=bold_font, wraplength=1200, justify='left')
+label_summary_value = tk.Label(root, text="", fg="blue", bg='#F0A07C', font=('Helvetica', 15, 'bold'), wraplength=1200, justify='left')
 label_summary_value.pack(pady=5)
-
-label_description = tk.Label(root, text="Description:", bg='orange', font=bold_font)
+label_description = tk.Label(root, text="Description:", bg='#F0A07C', font=('Helvetica', 15, 'bold'),fg='white')
 label_description.pack(pady=5)
-label_description_value = tk.Label(root, text="", fg="green", bg='orange', font=bold_font, wraplength=1200, justify='left')
+label_description_value = tk.Label(root, text="", fg="green", bg='#F0A07C', font=('Helvetica', 15, 'bold'), wraplength=1200, justify='left')
 label_description_value.pack(pady=5)
-
 # دکمه‌های اضافی برای وارد کردن، خروجی گرفتن و اضافه کردن دستی کد خطا
-button_frame = tk.Frame(root, bg='orange')
+button_frame = tk.Frame(root, bg='#F0A07C')
 button_frame.pack(pady=20)
-
-export_button = tk.Button(button_frame, text="Export JSON", command=export_json, bg='purple', fg='white', font=bold_font)
+export_button = tk.Button(button_frame, text="Export JSON", command=export_json, bg='#4A274F', fg='white', font=('Helvetica', 15, 'bold'))
 export_button.pack(side='left', padx=10)
-
-import_button = tk.Button(button_frame, text="Import JSON", command=import_json, bg='purple', fg='white', font=bold_font)
+import_button = tk.Button(button_frame, text="Import JSON", command=import_json, bg='#4A274F', fg='white',font=('Helvetica', 15, 'bold'))
 import_button.pack(side='left', padx=10)
-
-add_button = tk.Button(button_frame, text="Add Error Code", command=add_error_code, bg='purple', fg='white', font=bold_font)
+add_button = tk.Button(button_frame, text="Add Error Code", command=add_error_code, bg='#4A274F', fg='white', font=('Helvetica', 15, 'bold'))
 add_button.pack(side='left', padx=10)
-
+btn_exit = tk.Button(button_frame, text="Exit", command=quit_app, bg='#4A274F', fg='white', font=('Helvetica', 15, 'bold'))
+btn_exit.pack(side='left', padx=10)
 # اجرای برنامه
 root.mainloop()
