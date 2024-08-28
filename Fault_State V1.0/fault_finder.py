@@ -123,6 +123,14 @@ def search_error(event=None):
     except json.JSONDecodeError:
         messagebox.showerror("Error", "Error reading JSON file.")
 
+# تابعی برای بررسی اینکه کد در بازه مشخص شده است یا خیر
+def code_in_range(code, range_str):
+    start_str, end_str = range_str.split('-')
+    start_code = int(start_str, 16)
+    end_code = int(end_str, 16)
+    code = int(code, 16)
+    return start_code <= code <= end_code
+
 def quit_app():
     root.withdraw()
     root.quit()
