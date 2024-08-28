@@ -66,6 +66,7 @@ def add_error_code():
         # اضافه کردن پیشوند '0x' اگر نباشد
         if not code.startswith('0x'):
             code = '0x' + code
+            
         
         summary = simpledialog.askstring("Add Summary", "Enter the summary (in English):")
         description = simpledialog.askstring("Add Description", "Enter the description (in English):")
@@ -77,7 +78,7 @@ def add_error_code():
             if code in data.get("errors", {}):
                 messagebox.showerror("Error", "This code already exists.")
             else:
-                data["errors"][code.upper()] = {
+                data["errors"][code] = {
                     "summary": summary,
                     "description": description
                 }
@@ -91,11 +92,11 @@ def add_error_code():
 
 # تابع برای جستجوی کد خطا در فایل JSON
 def search_error(event=None):
-    code = entry_code.get().strip().upper()
-    
+    code = entry_code.get().strip()
     # اضافه کردن پیشوند '0x' اگر نباشد
-    if not code.startswith('0x'):
-        code = '0x' + code
+    if not (code.startswith("0x")):
+        code = "0x" + code
+        print(code)
     
     # خواندن فایل JSON
     try:
