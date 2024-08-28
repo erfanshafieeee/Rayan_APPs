@@ -1,19 +1,25 @@
 import json
+import os
 import tkinter as tk
-from tkinter import messagebox, simpledialog, filedialog, font
+from tkinter import messagebox, simpledialog, filedialog
 
 PASSWORD = "1234"
+# گرفتن مسیر فایل json
+script_dir = os.path.dirname(os.path.abspath(__file__))
+json_file_path = os.path.join(script_dir, 'errors.json')
+
 # تابع برای چک کردن پسورد
 def check_password():
     entered_password = simpledialog.askstring("Password", "Enter the password:", show='*')
     return entered_password == PASSWORD
+
 # تابع برای خروجی گرفتن از فایل JSON
 def export_json():
     if check_password():
         file_path = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON files", "*.json")])
         if file_path:
             try:
-                with open('errors.json', 'r') as original_file:
+                with open(json_file_path, 'r') as original_file:
                     data = json.load(original_file)
                 with open(file_path, 'w') as export_file:
                     json.dump(data, export_file, indent=4)
@@ -22,13 +28,14 @@ def export_json():
                 messagebox.showerror("Export Error", f"An error occurred: {str(e)}")
     else:
         messagebox.showerror("Access Denied", "Incorrect password.")
+
 # تابع برای وارد کردن فایل JSON
 def import_json():
     if check_password():
         file_path = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
         if file_path:
             try:
-                with open('errors.json', 'r') as original_file:
+                with open(json_file_path, 'r') as original_file:
                     original_data = json.load(original_file)
                 with open(file_path, 'r') as import_file:
                     new_data = json.load(import_file)
@@ -41,7 +48,7 @@ def import_json():
                         updated = True
                 
                 if updated:
-                    with open('errors.json', 'w') as original_file:
+                    with open(json_file_path, 'w') as original_file:
                         json.dump(original_data, original_file, indent=4)
                     messagebox.showinfo("Import", "New data has been added successfully.")
                 else:
@@ -50,54 +57,50 @@ def import_json():
                 messagebox.showerror("Import Error", f"An error occurred: {str(e)}")
     else:
         messagebox.showerror("Access Denied", "Incorrect password.")
+
 # تابع برای اضافه کردن دستی یک کد خطا
 def add_error_code():
     if check_password():
-        code = simpledialog.askstring("Add Error Code", "Enter the error code:")
+        code = simpledialog.askstring("Add Error Code", "Enter the State error code:", parent=root)
         
         # اضافه کردن پیشوند '0x' اگر نباشد
         if not code.startswith('0x'):
             code = '0x' + code
-        
-        summary = simpledialog.askstring("Add Summary", "Enter the summary (in English):")
-        description = simpledialog.askstring("Add Description", "Enter the description (in English):")
+            
+        summary = simpledialog.askstring("Add Summary", "Enter the summary (in English):", parent=root)
+        description = simpledialog.askstring("Add Description", "Enter the description (in English):", parent=root)
         
         try:
-            with open('errors.json', 'r') as file:
+            with open(json_file_path, 'r') as file:
                 data = json.load(file)
             
             if code in data.get("errors", {}):
-                messagebox.showerror("Error", "This code already exists.")
+                messagebox.showerror("Error", "This code already exists.", parent=root)
             else:
-                data["errors"][code.upper()] = {
+                data["errors"][code] = {
                     "summary": summary,
                     "description": description
                 }
-                with open('errors.json', 'w') as file:
+                with open(json_file_path, 'w') as file:
                     json.dump(data, file, indent=4)
-                messagebox.showinfo("Success", "Error code added successfully.")
+                messagebox.showinfo("Success", "Error code added successfully.", parent=root)
         except Exception as e:
-            messagebox.showerror("Add Error", f"An error occurred: {str(e)}")
+            messagebox.showerror("Add Error", f"An error occurred: {str(e)}", parent=root)
     else:
-        messagebox.showerror("Access Denied", "Incorrect password.")
-# تابع برای بررسی اینکه یک کد در یک بازه قرار دارد یا نه
-def code_in_range(code, range_str):
-    start, end = range_str.split('-')
-    start = int(start, 16)
-    end = int(end, 16)
-    code = int(code, 16)
-    return start <= code <= end
+        messagebox.showerror("Access Denied", "Incorrect password.", parent=root)
+
+
 # تابع برای جستجوی کد خطا در فایل JSON
 def search_error(event=None):
     code = entry_code.get().strip().upper()
-    
+    code = code.replace("X","x")
     # اضافه کردن پیشوند '0x' اگر نباشد
-    if not code.startswith('0x'):
-        code = '0x' + code
+    if not (code.startswith("0x")):
+        code = "0x" + code
     
     # خواندن فایل JSON
     try:
-        with open('errors.json', 'r') as file:
+        with open(json_file_path, 'r') as file:
             data = json.load(file)
             errors = data.get("errors", {})
             error_info = errors.get(code)
@@ -121,9 +124,18 @@ def search_error(event=None):
     except json.JSONDecodeError:
         messagebox.showerror("Error", "Error reading JSON file.")
 
+# تابعی برای بررسی اینکه کد در بازه مشخص شده است یا خیر
+def code_in_range(code, range_str):
+    start_str, end_str = range_str.split('-')
+    start_code = int(start_str, 16)
+    end_code = int(end_str, 16)
+    code = int(code, 16)
+    return start_code <= code <= end_code
+
 def quit_app():
     root.withdraw()
     root.quit()
+
 # ایجاد پنجره اصلی
 root = tk.Tk()
 root.title("State Error Code Finder")
@@ -162,3 +174,4 @@ btn_exit = tk.Button(button_frame, text="Exit", command=quit_app, bg='#4A274F', 
 btn_exit.pack(side='left', padx=10)
 # اجرای برنامه
 root.mainloop()
+#V2.0
