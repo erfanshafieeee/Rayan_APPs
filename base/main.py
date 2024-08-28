@@ -16,10 +16,12 @@ def open_error_code_program():
 root = tk.Tk()
 root.title("Main Menu")
 root.geometry("500x500")
-root.configure(bg='lightblue')
+root.configure(bg='LightPink')
 
-label = tk.Label(root, text="Please select your program:", font=('Helvetica', 14, 'bold'), bg='lightblue')
+label = tk.Label(root, text="Please select your program:", font=('Helvetica', 14, 'bold'), bg='LightPink')
 label.pack(pady=20)
+label = tk.Label(root, text="By Erfan Shafiee", font=('Helvetica', 10, 'bold'), bg='LightPink')
+label.pack(pady=20 , side ="bottom")
 
 btn_diag_id = tk.Button(root, text="آیدی یاب", command=open_diag_id_program, bg='red', fg='white', font=('Helvetica', 12, 'bold'))
 btn_diag_id.pack(pady=10, fill=tk.X)
