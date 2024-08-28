@@ -92,11 +92,11 @@ def add_error_code():
 
 # تابع برای جستجوی کد خطا در فایل JSON
 def search_error(event=None):
-    code = entry_code.get().strip()
+    code = entry_code.get().strip().upper()
+    code = code.replace("X","x")
     # اضافه کردن پیشوند '0x' اگر نباشد
     if not (code.startswith("0x")):
         code = "0x" + code
-        print(code)
     
     # خواندن فایل JSON
     try:
