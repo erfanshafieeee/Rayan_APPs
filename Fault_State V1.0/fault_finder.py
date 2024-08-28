@@ -61,22 +61,21 @@ def import_json():
 # تابع برای اضافه کردن دستی یک کد خطا
 def add_error_code():
     if check_password():
-        code = simpledialog.askstring("Add Error Code", "Enter the error code:")
+        code = simpledialog.askstring("Add Error Code", "Enter the State error code:", parent=root)
         
         # اضافه کردن پیشوند '0x' اگر نباشد
         if not code.startswith('0x'):
             code = '0x' + code
             
-        
-        summary = simpledialog.askstring("Add Summary", "Enter the summary (in English):")
-        description = simpledialog.askstring("Add Description", "Enter the description (in English):")
+        summary = simpledialog.askstring("Add Summary", "Enter the summary (in English):", parent=root)
+        description = simpledialog.askstring("Add Description", "Enter the description (in English):", parent=root)
         
         try:
             with open(json_file_path, 'r') as file:
                 data = json.load(file)
             
             if code in data.get("errors", {}):
-                messagebox.showerror("Error", "This code already exists.")
+                messagebox.showerror("Error", "This code already exists.", parent=root)
             else:
                 data["errors"][code] = {
                     "summary": summary,
@@ -84,11 +83,12 @@ def add_error_code():
                 }
                 with open(json_file_path, 'w') as file:
                     json.dump(data, file, indent=4)
-                messagebox.showinfo("Success", "Error code added successfully.")
+                messagebox.showinfo("Success", "Error code added successfully.", parent=root)
         except Exception as e:
-            messagebox.showerror("Add Error", f"An error occurred: {str(e)}")
+            messagebox.showerror("Add Error", f"An error occurred: {str(e)}", parent=root)
     else:
-        messagebox.showerror("Access Denied", "Incorrect password.")
+        messagebox.showerror("Access Denied", "Incorrect password.", parent=root)
+
 
 # تابع برای جستجوی کد خطا در فایل JSON
 def search_error(event=None):
