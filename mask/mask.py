@@ -45,6 +45,12 @@ def add_state():
     except ValueError:
         messagebox.showerror("Error", "Please enter a valid hexadecimal number.")
 
+# Function to reset all data
+def reset_data():
+    states.clear()  # Clear the dictionary
+    states_listbox.delete(0, tk.END)  # Clear the Listbox
+    mask_label.config(text="Mask: N/A")  # Reset the mask label
+
 # GUI setup
 root = tk.Tk()
 root.title("State and Mask Calculator")
@@ -73,6 +79,10 @@ mask_label.pack(pady=10)
 # Listbox for showing states
 states_listbox = tk.Listbox(root, font=("Arial", 12), width=30, height=8)
 states_listbox.pack(pady=10)
+
+# Reset button
+reset_button = tk.Button(root, text="Reset", font=("Arial", 14), command=reset_data)
+reset_button.pack(pady=10)
 
 # Dictionary to store states
 states = {}
