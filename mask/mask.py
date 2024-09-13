@@ -62,44 +62,45 @@ def add_state():
 def reset_data():
     states.clear()  # Clear the dictionary
     states_listbox.delete(0, tk.END)  # Clear the Listbox
-    mask_label.config(text="Mask: N/A")  # Reset the mask label
+    mask_label.config(text="Mask:")  # Reset the mask label
 
 # GUI setup
 root = tk.Tk()
 root.title("Mask Calculator")
 root.geometry("800x800")  # Enlarging the window size
+root.configure(bg='#1a1a1d')
 
 # State entry
-state_label = tk.Label(root, text="Enter state name:", font=("Arial", 14))
+state_label = tk.Label(root, text="Enter state name:", font=("Arial", 14) , bg='#1a1a1d',fg='#c3073f')
 state_label.pack(pady=10)
-state_entry = tk.Entry(root, font=("Arial", 14), width=20)
+state_entry = tk.Entry(root, font=("Arial", 14), width=20, bg='#4e4e50',fg='#ffffff')
 state_entry.pack(pady=5)
 
 # Hexadecimal range entry
-start_label = tk.Label(root, text="Enter start hex number:", font=("Arial", 14))
+start_label = tk.Label(root, text="Enter start hex number:", font=("Arial", 14), bg='#1a1a1d',fg='#c3073f')
 start_label.pack(pady=10)
-start_entry = tk.Entry(root, font=("Arial", 14), width=20)
+start_entry = tk.Entry(root, font=("Arial", 14), width=20, bg='#4e4e50',fg='#ffffff')
 start_entry.pack(pady=5)
 
-end_label = tk.Label(root, text="Enter end hex number:", font=("Arial", 14))
+end_label = tk.Label(root, text="Enter end hex number:", font=("Arial", 14), bg='#1a1a1d',fg='#c3073f')
 end_label.pack(pady=10)
-end_entry = tk.Entry(root, font=("Arial", 14), width=20)
+end_entry = tk.Entry(root, font=("Arial", 14), width=20, bg='#4e4e50',fg='#ffffff')
 end_entry.pack(pady=5)
 
 # Add state button
-add_button = tk.Button(root, text="Add State", font=("Arial", 14), command=add_state)
+add_button = tk.Button(root, text="Add State", font=("Arial", 14), command=add_state , bg = "#c3073f" , fg ="#ffffff")
 add_button.pack(pady=10)
 
 # Display mask
-mask_label = tk.Label(root, text="Mask:", font=("Arial", 14))
+mask_label = tk.Label(root, text="Mask:", font=("Arial", 14), bg='#1a1a1d',fg='#c3073f')
 mask_label.pack(pady=10)
 
 # Listbox for showing states
-states_listbox = tk.Listbox(root, font=("Arial", 12), width=50, height=12)
+states_listbox = tk.Listbox(root, font=("Arial", 12), width=50, height=12, bg='#4e4e50',fg='#c3073f')
 states_listbox.pack(pady=10)
 
 # Reset button
-reset_button = tk.Button(root, text="Reset", font=("Arial", 14), command=reset_data)
+reset_button = tk.Button(root, text="Reset", font=("Arial", 14), command=reset_data , bg = "#c3073f" , fg ="#ffffff" )
 reset_button.pack(pady=10)
 
 # Dictionary to store states
@@ -107,3 +108,4 @@ states = {}
 
 # Run the GUI
 root.mainloop()
+
