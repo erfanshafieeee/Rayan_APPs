@@ -18,29 +18,42 @@ def calculate_mask(new_state, previous_states):
 def add_state():
     try:
         state_name = state_entry.get()
-        state_value = int(index_entry.get(), 16)  # Convert hex input to decimal
-        binary_state = to_binary_array(state_value)
+        start_value = int(start_entry.get(), 16)  # Convert hex input to decimal
+        end_value = int(end_entry.get(), 16)  # Convert hex input to decimal
+        
+        # Calculate the length of the range
+        range_length = end_value - start_value + 1
+        
+        # Convert the starting value to binary
+        binary_start_value = to_binary_array(start_value)
         
         if state_name in states:
             messagebox.showerror("Error", "State already exists!")
             return
         
-        if states:
-            # Compare with all previous states and calculate the mask
-            previous_states = list(states.values())
-            mask = calculate_mask(binary_state, previous_states)
-            mask_value = int("".join(map(str, mask)), 2)  # Convert mask array to an integer
-            mask_label.config(text=f"Mask: 0x{mask_value:02X}")
+        # Determine the value display
+        if range_length < 8 or range_length > 16:
+            value_display = "default"
+            mask_value = None  # No mask calculation for default states
         else:
-            mask_label.config(text="Mask: N/A (First state)")
-            mask_value = 0xFF  # Assume full mask for first state
+            # Calculate mask only if the state is not default
+            if states:
+                # Compare with all previous states and calculate the mask
+                previous_states = [state['binary'] for state in states.values() if state['value'] != 'default']
+                mask = calculate_mask(binary_start_value, previous_states)
+                mask_value = int("".join(map(str, mask)), 2)  # Convert mask array to an integer
+                mask_label.config(text=f"Mask: 0x{mask_value:02X}")
+            else:
+                mask_label.config(text="Mask: N/A (First state)")
+                mask_value = 0xFF  # Assume full mask for first state
             
-        # Calculate value (state_value AND mask_value)
-        calculated_value = state_value & mask_value
+            # Calculate value (start_value AND mask_value)
+            calculated_value = start_value & mask_value
+            value_display = f"{calculated_value}"
         
         # Add the new state along with its value
-        states[state_name] = binary_state
-        states_listbox.insert(tk.END, f"{state_name}: {binary_state}, Value: {calculated_value}")
+        states[state_name] = {'binary': binary_start_value, 'value': value_display}
+        states_listbox.insert(tk.END, f"{state_name}: {binary_start_value}, Value: {value_display}")
         
     except ValueError:
         messagebox.showerror("Error", "Please enter a valid hexadecimal number.")
@@ -62,11 +75,16 @@ state_label.pack(pady=10)
 state_entry = tk.Entry(root, font=("Arial", 14), width=20)
 state_entry.pack(pady=5)
 
-# Hexadecimal entry
-index_label = tk.Label(root, text="Enter hex number :", font=("Arial", 14))
-index_label.pack(pady=10)
-index_entry = tk.Entry(root, font=("Arial", 14), width=20)
-index_entry.pack(pady=5)
+# Hexadecimal range entry
+start_label = tk.Label(root, text="Enter start hex number:", font=("Arial", 14))
+start_label.pack(pady=10)
+start_entry = tk.Entry(root, font=("Arial", 14), width=20)
+start_entry.pack(pady=5)
+
+end_label = tk.Label(root, text="Enter end hex number:", font=("Arial", 14))
+end_label.pack(pady=10)
+end_entry = tk.Entry(root, font=("Arial", 14), width=20)
+end_entry.pack(pady=5)
 
 # Add state button
 add_button = tk.Button(root, text="Add State", font=("Arial", 14), command=add_state)
@@ -77,7 +95,7 @@ mask_label = tk.Label(root, text="Mask:", font=("Arial", 14))
 mask_label.pack(pady=10)
 
 # Listbox for showing states
-states_listbox = tk.Listbox(root, font=("Arial", 12), width=30, height=8)
+states_listbox = tk.Listbox(root, font=("Arial", 12), width=50, height=12)
 states_listbox.pack(pady=10)
 
 # Reset button
