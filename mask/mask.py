@@ -33,10 +33,14 @@ def add_state():
             mask_label.config(text=f"Mask: 0x{mask_value:02X}")
         else:
             mask_label.config(text="Mask: N/A (First state)")
+            mask_value = 0xFF  # Assume full mask for first state
+            
+        # Calculate value (state_value AND mask_value)
+        calculated_value = state_value & mask_value
         
-        # Add the new state
+        # Add the new state along with its value
         states[state_name] = binary_state
-        states_listbox.insert(tk.END, f"{state_name}: {binary_state}")
+        states_listbox.insert(tk.END, f"{state_name}: {binary_state}, Value: {calculated_value}")
         
     except ValueError:
         messagebox.showerror("Error", "Please enter a valid hexadecimal number.")
