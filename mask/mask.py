@@ -53,8 +53,8 @@ def reset_data():
 
 # GUI setup
 root = tk.Tk()
-root.title("State and Mask Calculator")
-root.geometry("400x400")  # Enlarging the window size
+root.title("Mask Calculator")
+root.geometry("800x800")  # Enlarging the window size
 
 # State entry
 state_label = tk.Label(root, text="Enter state name:", font=("Arial", 14))
@@ -63,7 +63,7 @@ state_entry = tk.Entry(root, font=("Arial", 14), width=20)
 state_entry.pack(pady=5)
 
 # Hexadecimal entry
-index_label = tk.Label(root, text="Enter hex number (e.g., 0xFF):", font=("Arial", 14))
+index_label = tk.Label(root, text="Enter hex number :", font=("Arial", 14))
 index_label.pack(pady=10)
 index_entry = tk.Entry(root, font=("Arial", 14), width=20)
 index_entry.pack(pady=5)
@@ -73,7 +73,7 @@ add_button = tk.Button(root, text="Add State", font=("Arial", 14), command=add_s
 add_button.pack(pady=10)
 
 # Display mask
-mask_label = tk.Label(root, text="Mask: N/A", font=("Arial", 14))
+mask_label = tk.Label(root, text="Mask:", font=("Arial", 14))
 mask_label.pack(pady=10)
 
 # Listbox for showing states
