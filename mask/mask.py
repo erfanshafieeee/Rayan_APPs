@@ -35,7 +35,7 @@ def add_state(event=None):  # Add 'event=None' to handle both button click and E
             mask_value = int("".join(map(str, mask)), 2)  # Convert mask array to an integer
             mask_label.config(text=f"Mask: 0x{mask_value:02X}")
         else:
-            mask_label.config(text="Mask: N/A (First state)")
+            mask_label.config(text="Mask:(First state)")
             mask_value = 0xFF  # Assume full mask for first state
         
         # Calculate value (start_value AND mask_value)
