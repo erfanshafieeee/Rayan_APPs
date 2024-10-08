@@ -1,19 +1,19 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog, filedialog
-#from main import run_main
 import json
 import os
-def start_diag_id_program():
-    # دریافت مسیر دایرکتوری فایل اجرایی
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+from pathlib import Path
 
-    # تعریف مسیر کامل فایل JSON
-    POPULARITY_FILE = os.path.join(BASE_DIR, 'popularity_data.json')
-    
-    # def back_to_main():
-    #     root.withdraw()  # Hide the main window
-    #     run_main()
-    #     root.deiconify()  # Show the main window after closing the second window
+def start_diag_id_program():
+    # دریافت مسیر دایرکتوری فایل اجرایی در پوشه Documents
+    def get_database_path():
+        documents_path = Path.home() / "Documents/RayanApps"
+        if not documents_path.exists():
+            documents_path.mkdir(parents=True)  # ایجاد دایرکتوری اگر وجود ندارد
+
+        return os.path.join(documents_path, 'popularity_data.json')
+
+    POPULARITY_FILE = get_database_path()
 
     # Load popularity data from file
     def load_popularity_data():
@@ -25,7 +25,7 @@ def start_diag_id_program():
     # Save popularity data to file
     def save_popularity_data(data):
         with open(POPULARITY_FILE, 'w') as file:
-            json.dump(data, file)
+            json.dump(data, file, indent=4)
 
     # Update popularity count based on ECU_ID
     def update_popularity(ecu_id, diag_id):
@@ -46,8 +46,8 @@ def start_diag_id_program():
             
             diag_id_pos = []
             diag_id_min = []
-            digit = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20,0x30,0x40,0x60, 0x80, 0x100, 0x120, 0x200,
-                    0x0A , 0X0B , 0X0C , 0X0D ,0X0E , 0X0F ]
+            digit = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x30, 0x40, 0x60, 0x80, 0x100, 0x120, 0x200,
+                     0x0A, 0X0B, 0X0C, 0X0D, 0X0E, 0X0F]
 
             for i in digit:
                 x = ecu_id_int + i
@@ -246,10 +246,6 @@ def start_diag_id_program():
     listbox = tk.Listbox(frame_listbox, font=('Helvetica', 12, 'bold'), selectmode=tk.SINGLE, bg='lightblue', fg='black', width=150)
     listbox.pack(pady=10, fill=tk.BOTH, expand=True)
 
-    # Frame for Submit and Else buttons
-    frame_buttons = tk.Frame(frame_listbox, bg='lightblue')
-    frame_buttons.pack(pady=10)
-
     # Configure tags for text colors
     result_text.tag_configure('blue_text', foreground='blue')
     result_text.tag_configure('green_text', foreground='green')
@@ -260,4 +256,3 @@ def start_diag_id_program():
     entry_ecu_id.bind('<Return>', calculate_diag_ids)
 
     root.mainloop()
-

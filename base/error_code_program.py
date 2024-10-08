@@ -2,11 +2,25 @@ import json
 import os
 import tkinter as tk
 from tkinter import messagebox, simpledialog, filedialog
+from pathlib import Path
+
 def start_error_code_program():
     PASSWORD = "1234"
-    # گرفتن مسیر فایل json
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    json_file_path = os.path.join(script_dir, 'errors.json')
+    
+    # پیدا کردن مسیر پوشه Documents کاربر
+    documents_path = Path.home() / "Documents/RayanApps"
+    if not documents_path.exists():
+        documents_path.mkdir(parents=True)  # ایجاد دایرکتوری اگر وجود ندارد
+
+    # گرفتن مسیر فایل JSON در Documents
+    json_file_path = os.path.join(documents_path, 'errors.json')
+
+    # بررسی اینکه فایل JSON وجود دارد یا خیر. اگر وجود نداشت، یک فایل جدید خالی ایجاد می‌شود
+    def create_empty_json_if_not_exists():
+        if not os.path.exists(json_file_path):
+            empty_data = {"errors": {}}  # ساختار خالی JSON
+            with open(json_file_path, 'w') as file:
+                json.dump(empty_data, file, indent=4)
 
     # تابع برای چک کردن پسورد
     def check_password():
@@ -89,7 +103,6 @@ def start_error_code_program():
         else:
             messagebox.showerror("Access Denied", "Incorrect password.", parent=root)
 
-
     # تابع برای جستجوی کد خطا در فایل JSON
     def search_error(event=None):
         code = entry_code.get().strip().upper()
@@ -136,6 +149,9 @@ def start_error_code_program():
         root.withdraw()
         root.quit()
 
+    # ایجاد فایل JSON خالی در صورت عدم وجود
+    create_empty_json_if_not_exists()
+
     # ایجاد پنجره اصلی
     root = tk.Tk()
     root.title("State Error Code Finder")
@@ -174,4 +190,5 @@ def start_error_code_program():
     btn_exit.pack(side='left', padx=10)
     # اجرای برنامه
     root.mainloop()
-    #V2.0
+
+start_error_code_program()
