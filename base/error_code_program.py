@@ -191,4 +191,3 @@ def start_error_code_program():
     # اجرای برنامه
     root.mainloop()
 
-start_error_code_program()
