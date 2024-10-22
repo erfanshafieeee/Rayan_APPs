@@ -1,23 +1,35 @@
 import tkinter as tk
 from tkinter import messagebox
+import os
+import jdatetime
 
 def create_cpp_file():
     class_name = entry_class_name.get().strip()
-    if not class_name:
-        messagebox.showerror("Error", "Class name cannot be empty!")
+    author_name = entry_author_name.get().strip()
+
+    if not class_name or not author_name:
+        messagebox.showerror("Error", "Class name and author name cannot be empty!")
         return
 
-    cpp_file = class_name.upper() + ".cpp"
-    cs_file = class_name.upper() + ".cs"
-    h_file = class_name.upper() + ".h"
+    # دریافت تاریخ روز شمسی
+    current_date = jdatetime.date.today().strftime("%d/%m/%Y")
 
+    # ایجاد فولدر برای ذخیره فایل‌ها
+    folder_name = class_name.upper()
+    os.makedirs(folder_name, exist_ok=True)
+
+    cpp_file = os.path.join(folder_name, class_name.upper() + ".cpp")
+    cs_file = os.path.join(folder_name, class_name.upper() + ".cs")
+    h_file = os.path.join(folder_name, class_name.upper() + ".h")
+
+    # قالب فایل cpp با اضافه کردن نام و تاریخ
     template_cpp = f'''#include "OtherHeader\\{class_name.upper()}_OH.h"
 #include "{class_name.upper()}.h"
 #include "MSG_{class_name.upper()}.h"
 #include "GeneralSecurity.h"
 // #include "AdvancedSelectionForm.h"
 // #include "Encoding.h"
-// Shafiee-06/1403
+// {author_name}-{current_date}
 
 {class_name.upper()}::{class_name.upper()}(void)
 {{
@@ -33,6 +45,7 @@ bool {class_name.upper()}::(yourmetodname)(CommandAdorner *Command)
 }}
 '''
 
+    # قالب فایل cs
     template_cs = f'''using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +72,7 @@ namespace USILogicLayer.Algorithms
 }}
 '''
 
+    # قالب فایل h
     template_h = f'''#ifndef __{class_name.upper()}_H
 #define __{class_name.upper()}_H
 
@@ -96,25 +110,39 @@ private:
             file.write(template_cs)
         with open(h_file, 'w') as file:
             file.write(template_h)
-        messagebox.showinfo("Success", f"Files '{cpp_file}', '{cs_file}', and '{h_file}' created successfully.")
+        messagebox.showinfo("Success", f"Files '{cpp_file}', '{cs_file}', and '{h_file}' created successfully in folder '{folder_name}'.")
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred while creating the files: {e}")
+
+# اجرای تابع با فشردن کلید Enter
+def on_enter(event):
+    create_cpp_file()
 
 # ایجاد پنجره اصلی
 root = tk.Tk()
 root.title("C++ and C# Template Generator")
-root.geometry("400x200")
+root.geometry("400x250")
 
 # افزودن برچسب و ورودی برای دریافت نام کلاس
 label_class_name = tk.Label(root, text="Enter the class name:")
-label_class_name.pack(pady=10)
+label_class_name.pack(pady=5)
 
 entry_class_name = tk.Entry(root, width=30)
 entry_class_name.pack(pady=5)
 
+# افزودن برچسب و ورودی برای دریافت نام نویسنده
+label_author_name = tk.Label(root, text="Enter the author name:")
+label_author_name.pack(pady=5)
+
+entry_author_name = tk.Entry(root, width=30)
+entry_author_name.pack(pady=5)
+
 # افزودن دکمه برای ایجاد فایل‌ها
 btn_generate = tk.Button(root, text="Generate Files", command=create_cpp_file, bg="blue", fg="white")
 btn_generate.pack(pady=20)
+
+# تنظیم رویداد برای فشردن کلید Enter
+root.bind('<Return>', on_enter)
 
 # اجرای برنامه
 root.mainloop()
