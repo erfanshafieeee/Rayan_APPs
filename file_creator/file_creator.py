@@ -120,7 +120,7 @@ def on_enter(event):
 
 # Create the main window
 root = tk.Tk()
-root.title("C++ and C# Template Generator")
+root.title("C++ and C# and .h file generator")
 root.geometry("400x300")
 root.configure(bg="#0C2D48")  # Carbon blue background
 
