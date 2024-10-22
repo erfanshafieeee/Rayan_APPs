@@ -11,10 +11,10 @@ def create_cpp_file():
         messagebox.showerror("Error", "Class name and author name cannot be empty!")
         return
 
-    # دریافت تاریخ روز شمسی
+    # Get the current Shamsi date
     current_date = jdatetime.date.today().strftime("%d/%m/%Y")
 
-    # ایجاد فولدر برای ذخیره فایل‌ها
+    # Create a folder to save the files
     folder_name = class_name.upper()
     os.makedirs(folder_name, exist_ok=True)
 
@@ -22,7 +22,7 @@ def create_cpp_file():
     cs_file = os.path.join(folder_name, class_name.upper() + ".cs")
     h_file = os.path.join(folder_name, class_name.upper() + ".h")
 
-    # قالب فایل cpp با اضافه کردن نام و تاریخ
+    # Template for the cpp file with added name and date
     template_cpp = f'''#include "OtherHeader\\{class_name.upper()}_OH.h"
 #include "{class_name.upper()}.h"
 #include "MSG_{class_name.upper()}.h"
@@ -45,7 +45,7 @@ bool {class_name.upper()}::(yourmetodname)(CommandAdorner *Command)
 }}
 '''
 
-    # قالب فایل cs
+    # Template for the cs file
     template_cs = f'''using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +72,7 @@ namespace USILogicLayer.Algorithms
 }}
 '''
 
-    # قالب فایل h
+    # Template for the h file
     template_h = f'''#ifndef __{class_name.upper()}_H
 #define __{class_name.upper()}_H
 
@@ -114,36 +114,36 @@ private:
     except Exception as e:
         messagebox.showerror("Error", f"An error occurred while creating the files: {e}")
 
-# اجرای تابع با فشردن کلید Enter
+# Execute the function when the Enter key is pressed
 def on_enter(event):
     create_cpp_file()
 
-# ایجاد پنجره اصلی
+# Create the main window
 root = tk.Tk()
 root.title("C++ and C# Template Generator")
 root.geometry("400x300")
-root.configure(bg="#0C2D48")  # پس‌زمینه آبی کاربنی
+root.configure(bg="#0C2D48")  # Carbon blue background
 
-# افزودن برچسب و ورودی برای دریافت نام کلاس
+# Add label and entry for class name input
 label_class_name = tk.Label(root, text="Enter the class name:", bg="#0C2D48", fg="white")
 label_class_name.pack(pady=5)
 
 entry_class_name = tk.Entry(root, width=30)
 entry_class_name.pack(pady=5)
 
-# افزودن برچسب و ورودی برای دریافت نام نویسنده
+# Add label and entry for author name input
 label_author_name = tk.Label(root, text="Enter the author name:", bg="#0C2D48", fg="white")
 label_author_name.pack(pady=5)
 
 entry_author_name = tk.Entry(root, width=30)
 entry_author_name.pack(pady=5)
 
-# افزودن دکمه برای ایجاد فایل‌ها
-btn_generate = tk.Button(root, text="Generate Files", command=create_cpp_file, bg="#2E8B57", fg="white")  # دکمه سبز
+# Add button to generate files
+btn_generate = tk.Button(root, text="Generate Files", command=create_cpp_file, bg="#2E8B57", fg="white")  # Green button
 btn_generate.pack(pady=20)
 
-# تنظیم رویداد برای فشردن کلید Enter
+# Bind the Enter key to trigger file generation
 root.bind('<Return>', on_enter)
 
-# اجرای برنامه
+# Run the application
 root.mainloop()
