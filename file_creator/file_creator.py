@@ -121,24 +121,25 @@ def on_enter(event):
 # ایجاد پنجره اصلی
 root = tk.Tk()
 root.title("C++ and C# Template Generator")
-root.geometry("400x250")
+root.geometry("400x300")
+root.configure(bg="#0C2D48")  # پس‌زمینه آبی کاربنی
 
 # افزودن برچسب و ورودی برای دریافت نام کلاس
-label_class_name = tk.Label(root, text="Enter the class name:")
+label_class_name = tk.Label(root, text="Enter the class name:", bg="#0C2D48", fg="white")
 label_class_name.pack(pady=5)
 
 entry_class_name = tk.Entry(root, width=30)
 entry_class_name.pack(pady=5)
 
 # افزودن برچسب و ورودی برای دریافت نام نویسنده
-label_author_name = tk.Label(root, text="Enter the author name:")
+label_author_name = tk.Label(root, text="Enter the author name:", bg="#0C2D48", fg="white")
 label_author_name.pack(pady=5)
 
 entry_author_name = tk.Entry(root, width=30)
 entry_author_name.pack(pady=5)
 
 # افزودن دکمه برای ایجاد فایل‌ها
-btn_generate = tk.Button(root, text="Generate Files", command=create_cpp_file, bg="blue", fg="white")
+btn_generate = tk.Button(root, text="Generate Files", command=create_cpp_file, bg="#2E8B57", fg="white")  # دکمه سبز
 btn_generate.pack(pady=20)
 
 # تنظیم رویداد برای فشردن کلید Enter
