@@ -5,7 +5,7 @@ import jdatetime
 
 def create_cpp_file():
     class_name = entry_class_name.get().strip()
-    author_name = entry_author_name.get().strip()
+    author_name = entry_author_name.get().strip().title()
 
     if not class_name or not author_name:
         messagebox.showerror("Error", "Class name and author name cannot be empty!")
