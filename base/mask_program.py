@@ -55,6 +55,10 @@ def start_mask_program():
         states_listbox.delete(0, tk.END)  # Clear the Listbox
         mask_label.config(text="Mask:")  # Reset the mask label
 
+    def quit_app():
+        root.withdraw()
+        root.quit()
+
     # GUI setup
     root = tk.Tk()
     root.title("Mask Calculator")
@@ -91,6 +95,10 @@ def start_mask_program():
     # Reset button
     reset_button = tk.Button(root, text="Reset", font=("Arial", 14), command=reset_data, bg="#c3073f", fg="#ffffff")
     reset_button.pack(pady=10)
+
+
+    btn_exit = tk.Button(root, text="Exit", font=("Arial", 14) ,command=quit_app, bg='#c3073f', fg='#ffffff')
+    btn_exit.pack(pady=10)
 
     # Bind ESC key to reset_data function
     root.bind('<Escape>', reset_data)
