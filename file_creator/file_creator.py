@@ -59,6 +59,7 @@ using Extensions.Loggers;
 using USILogicLayer.Algorithms.Algorithm_Forms;
 using System.Diagnostics;
 using USILogicLayer.Algorithms;
+// {author_name}-{current_date}
 
 namespace USILogicLayer.Algorithms
 {{
@@ -78,6 +79,7 @@ namespace USILogicLayer.Algorithms
 
 #include "rayanmessage.h"
 #include "Algorithm.h"
+// {author_name}-{current_date}
 
 class {class_name.upper()} : public BaseAlgorithm//,VariableAdorner
 {{
