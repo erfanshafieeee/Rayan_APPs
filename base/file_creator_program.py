@@ -14,8 +14,9 @@ def start_create_file_program():
         # Get the current Shamsi date
         current_date = jdatetime.date.today().strftime("%d/%m/%Y")
 
-        # Create a folder to save the files
-        folder_name = class_name.upper()
+        # Create a folder on the desktop to save the files
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        folder_name = os.path.join(desktop_path, class_name.upper())
         os.makedirs(folder_name, exist_ok=True)
 
         cpp_file = os.path.join(folder_name, class_name.upper() + ".cpp")
