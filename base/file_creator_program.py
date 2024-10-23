@@ -24,86 +24,74 @@ def start_create_file_program():
 
         # Template for the cpp file with added name and date
         template_cpp = f'''#include "OtherHeader\\{class_name.upper()}_OH.h"
-    #include "{class_name.upper()}.h"
-    #include "MSG_{class_name.upper()}.h"
-    #include "GeneralSecurity.h"
-    // #include "AdvancedSelectionForm.h"
-    // #include "Encoding.h"
-    // {author_name}-{current_date}
-
-    {class_name.upper()}::{class_name.upper()}(void)
-    {{
-    }}
-    //=========================================================================================================================================================================================//
-    {class_name.upper()}::~{class_name.upper()}(void)
-    {{
-    }}
-    //=========================================================================================================================================================================================//
-    bool {class_name.upper()}::(yourmetodname)(CommandAdorner *Command)
-    {{
-    //your code
-    }}
-    '''
+#include "{class_name.upper()}.h"
+#include "MSG_{class_name.upper()}.h"
+#include "GeneralSecurity.h"
+// #include "AdvancedSelectionForm.h"
+// #include "Encoding.h"
+// {author_name}-{current_date}
+{class_name.upper()}::{class_name.upper()}(void)
+{{
+}}
+//=========================================================================================================================================================================================//
+{class_name.upper()}::~{class_name.upper()}(void)
+{{
+}}
+//=========================================================================================================================================================================================//
+bool {class_name.upper()}::(yourmetodname)(CommandAdorner *Command)
+{{
+//your code
+}}
+'''
 
         # Template for the cs file
         template_cs = f'''using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using USILogicLayer.Protocol;
-    using Extensions.ByteArrayExtensions;
-    using DataAccessLayer;
-    using System.Threading;
-    using System.IO;
-    using Extensions.Loggers;
-    using USILogicLayer.Algorithms.Algorithm_Forms;
-    using System.Diagnostics;
-    using USILogicLayer.Algorithms;
-    // {author_name}-{current_date}
-
-    namespace USILogicLayer.Algorithms
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using USILogicLayer.Protocol;
+using Extensions.ByteArrayExtensions;
+using DataAccessLayer;
+using System.Threading;
+using System.IO;
+using Extensions.Loggers;
+using USILogicLayer.Algorithms.Algorithm_Forms;
+using System.Diagnostics;
+using USILogicLayer.Algorithms;
+// {author_name}-{current_date}
+namespace USILogicLayer.Algorithms
+{{
+    public class {class_name.upper()} : Algorithm
     {{
-        public class {class_name.upper()} : Algorithm
+        public {class_name.upper()}(RayanDataModelDataSet.ECURow ECU, LogicManager logicManager) : base(ECU, logicManager)
         {{
-            public {class_name.upper()}(RayanDataModelDataSet.ECURow ECU, LogicManager logicManager) : base(ECU, logicManager)
-            {{
-            //your msgs
-            }}
+        //your msgs
         }}
     }}
-    '''
+}}
+'''
 
         # Template for the h file
         template_h = f'''#ifndef __{class_name.upper()}_H
-    #define __{class_name.upper()}_H
+#define __{class_name.upper()}_H
+#include "rayanmessage.h"
+#include "Algorithm.h"
+// {author_name}-{current_date}
+class {class_name.upper()} : public BaseAlgorithm//,VariableAdorner
+{{
+public:
+    virtual bool InternalSwitchCase(CommandAdorner* Command);
+    //virtual bool InternalEvaluateExpression(int FormatId, const unsigned char * b,experssion    * Expression);
+    const static u16 Class_ID;
+    {class_name.upper()}(void);
+    ~{class_name.upper()}(void);
+    //your method
+    //exp : bool Value_Configuration(CommandAdorner* Command);
 
-    #include "rayanmessage.h"
-    #include "Algorithm.h"
-    // {author_name}-{current_date}
-
-    class {class_name.upper()} : public BaseAlgorithm//,VariableAdorner
-    {{
-
-    public:
-
-        virtual bool InternalSwitchCase(CommandAdorner* Command);
-        //virtual bool InternalEvaluateExpression(int FormatId, const unsigned char * b,experssion    * Expression);
-
-        const static u16 Class_ID;
-
-        {class_name.upper()}(void);
-        ~{class_name.upper()}(void);
-
-        //your method
-        //exp : bool Value_Configuration(CommandAdorner* Command);
-
-        
-
-    private:
-    }};
-
-    #endif //__{class_name.upper()}_H
-    '''
+private:
+}};
+#endif //__{class_name.upper()}_H
+'''
 
         try:
             with open(cpp_file, 'w') as file:
